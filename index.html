@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click ME</title>
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    body{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container{
+      text-align: center;
+    }
+    .container .count{
+      font-size: 30px;
+      font-weight: bold;
+      line-height: 35px;
+    }
+    .container .butt{
+      position: relative;
+      cursor: pointer;
+      width: 200px;
+      height: 30px;
+      line-height: 30px;
+      margin-top: 10px;
+      border: 1px solid lightgray;
+      color: lightgray;
+      border-radius: 10px;
+      transition: border 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+      overflow: hidden;
+      user-select: none;
+    }
+    .container .butt:hover{
+      border: 1px solid gray;
+      color: gray;
+      box-shadow: 0 0 146px 0px rgba(19,226,240,0.75);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="count"></div>
+    <div class="butt">
+      <span>CLICK ME</span>
+      <ink-ripple></ink-ripple>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/ink-ripple@1.0.0/ink-ripple.min.js"></script>
+  <script>
+    const $butt = document.querySelector('.butt');
+    const $count = document.querySelector('.count');
+    const emit = async function(){
+      const res = await fetch('./click.php');
+      const resText = await res.text();
+      console.log('> tada', resText);
+    }
+
+    const updateCount = async function(){
+      const res = await fetch('./size.php');
+      const num = await res.text();
+      $count.innerHTML = num;
+    }
+
+    setInterval(function(){
+      updateCount();
+    }, 5000);
+
+    $butt.addEventListener('click', function(){
+      emit();
+    });
+    updateCount();
+  </script>
+</body>
+</html>
