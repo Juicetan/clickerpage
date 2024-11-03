@@ -64,10 +64,17 @@
       console.log('> tada', resText);
     }
 
+    var localCountNum = 0;
     const updateCount = async function(){
       const res = await fetch('./size.php');
       const num = await res.text();
+      localCountNum = +num;
       $count.innerHTML = num;
+    }
+
+    const localCountUpdate = function(){
+      localCountNum++;
+      $count.innerHTML = localCountNum;
     }
 
     setInterval(function(){
@@ -76,6 +83,7 @@
 
     $butt.addEventListener('click', function(){
       emit();
+      localCountUpdate();
     });
     updateCount();
   </script>
